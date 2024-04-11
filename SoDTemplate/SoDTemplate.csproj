@@ -64,7 +64,7 @@
     <ItemGroup Condition="$(Configuration) == 'Debug' and $(CI) != 'true'">
         <Reference Include="Assembly-CSharp" HintPath="$(SOD_MONO)\Assembly-CSharp.dll" Private="False" Publicize="true"/>
     </ItemGroup>
-    
+
     <!-- RELEASE Assemblies - IL2CPP build of the game used for mod distribution -->
     <ItemGroup Condition="$(Configuration) == 'Release' and $(CI) != 'true'">
         <Reference Include="Assembly-CSharp" HintPath="$(SOD_REFERENCES)\Assembly-CSharp.dll" Private="False" Publicize="true"/>

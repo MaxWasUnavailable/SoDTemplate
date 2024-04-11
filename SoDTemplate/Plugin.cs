@@ -10,7 +10,8 @@ namespace SoDTemplate;
 ///     Main plugin class for SoDTemplate.
 /// </summary>
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
-[SuppressMessage("Class Declaration", "BepInEx002:Classes with BepInPlugin attribute must inherit from BaseUnityPlugin")]
+[SuppressMessage("Class Declaration",
+    "BepInEx002:Classes with BepInPlugin attribute must inherit from BaseUnityPlugin")]
 public class Plugin : BasePlugin
 {
     private bool _isPatched;
