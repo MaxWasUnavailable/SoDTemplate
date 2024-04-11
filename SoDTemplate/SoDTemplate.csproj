@@ -60,6 +60,12 @@
         <PackageReference Include="MinVer" Version="4.*" PrivateAssets="all" Private="false"/>
     </ItemGroup>
 
+    <!-- Optional SOD community libraries - uncomment if needed
+    <ItemGroup>
+        <PackageReference Include="SOD.Common" Version="1.*" PrivateAssets="all"/>
+    </ItemGroup>
+    -->
+
     <!-- DEBUG Assemblies - mono build of the game used for decompilation -->
     <ItemGroup Condition="$(Configuration) == 'Debug' and $(CI) != 'true'">
         <Reference Include="Assembly-CSharp" HintPath="$(SOD_MONO)\Assembly-CSharp.dll" Private="False" Publicize="true"/>
