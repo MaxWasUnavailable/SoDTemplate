@@ -49,10 +49,10 @@
     <!-- BepInEx Package References -->
     <ItemGroup>
         <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all"/>
-        <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-*" IncludeAssets="compile"/>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-*" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*"/>
-        <PackageReference Include="UnityEngine.Modules" Version="2021.3.35" IncludeAssets="compile"/>
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" ExcludeAssets="runtime"/>
+        <PackageReference Include="UnityEngine.Modules" Version="2021.3.35" IncludeAssets="compile"/>
     </ItemGroup>
 
     <!-- Extra Package References -->

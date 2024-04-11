@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using BepInEx;
-using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 
 namespace SoDTemplate;
