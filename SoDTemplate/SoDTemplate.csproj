@@ -73,13 +73,13 @@
 
     <!-- RELEASE Assemblies - IL2CPP build of the game used for mod distribution -->
     <ItemGroup Condition="$(Configuration) == 'Release' and $(CI) != 'true'">
-        <Reference Include="Assembly-CSharp" HintPath="$(SOD_REFERENCES)\Assembly-CSharp.dll" Private="False" Publicize="true"/>
+        <PackageReference Include="MaxWasUnavailable.ShadowsOfDoubt.Libs" Version="*" PrivateAssets="all" Private="false" Publicize="true"/>
     </ItemGroup>
 
-    <!-- CI Assemblies - TODO: set up NuGet package for CI builds -->
-    <!--    <ItemGroup Condition="$(CI) == 'true'">-->
-    <!--                <PackageReference Include="TODO" Version="TODO" Publicize="true" Private="False" PrivateAssets="all"/>-->
-    <!--    </ItemGroup>-->
+    <!-- CI Assemblies -->
+    <ItemGroup Condition="$(CI) == 'true'">
+        <PackageReference Include="MaxWasUnavailable.ShadowsOfDoubt.Libs" Version="*" PrivateAssets="all" Private="false" Publicize="true"/>
+    </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
