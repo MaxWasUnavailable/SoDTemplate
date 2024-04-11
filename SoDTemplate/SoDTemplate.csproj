@@ -5,7 +5,7 @@
         <AssemblyName>MaxWasUnavailable.SoDTemplate</AssemblyName>
         <PackageId>MaxWasUnavailable.SoDTemplate</PackageId>
         <Title>MaxWasUnavailable's SoD Template</Title>
-        <Description>A NewGame+ mod, allowing you to migrate your character to a new city.</Description>
+        <Description>A template for Shadows of Doubt mods.</Description>
         <Version>1.0.0</Version>
         <Authors>MaxWasUnavailable</Authors>
         <PackageTags>shadows;of;doubt;bepinex</PackageTags>
