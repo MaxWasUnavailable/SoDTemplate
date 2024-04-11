@@ -1,0 +1,108 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <!-- General Project Information -->
+        <TargetFramework>net6.0</TargetFramework>
+        <AssemblyName>MaxWasUnavailable.SoDTemplate</AssemblyName>
+        <PackageId>MaxWasUnavailable.SoDTemplate</PackageId>
+        <Title>MaxWasUnavailable's SoD Template</Title>
+        <Description>A NewGame+ mod, allowing you to migrate your character to a new city.</Description>
+        <Version>1.0.0</Version>
+        <Authors>MaxWasUnavailable</Authors>
+        <PackageTags>shadows;of;doubt;bepinex</PackageTags>
+
+        <!-- Package Information -->
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/MaxWasUnavailable/SoDTemplate</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/MaxWasUnavailable/SoDTemplate</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <!-- Build Information -->
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <!-- NuGet Information -->
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json
+        </RestoreAdditionalProjectSources>
+
+        <!-- Auto Versioning -->
+        <MinVerDefaultPreReleaseIdentifiers>dev</MinVerDefaultPreReleaseIdentifiers>
+        <MinVerTagPrefix>v</MinVerTagPrefix>
+
+        <!-- Documentation -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <!-- Prevent Publicizer Warnings from Showing -->
+        <NoWarn>$(NoWarn);CS0436</NoWarn>
+    </PropertyGroup>
+
+    <!-- Include README and CHANGELOG in the package -->
+    <ItemGroup>
+        <None Include="$(ProjectDir)../README.md" Pack="true" PackagePath="/"/>
+        <None Include="$(ProjectDir)../CHANGELOG.md" Pack="true" PackagePath="/"/>
+        <None Include="$(ProjectDir)../assets/thunderstore.toml" PackagePath="/"/>
+    </ItemGroup>
+
+    <!-- BepInEx Package References -->
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-*" IncludeAssets="compile"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*"/>
+        <PackageReference Include="UnityEngine.Modules" Version="2021.3.35" IncludeAssets="compile"/>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" ExcludeAssets="runtime"/>
+    </ItemGroup>
+
+    <!-- Extra Package References -->
+    <ItemGroup>
+        <PackageReference Include="MinVer" Version="4.*" PrivateAssets="all" Private="false"/>
+    </ItemGroup>
+
+    <!-- DEBUG Assemblies - mono build of the game used for decompilation -->
+    <ItemGroup Condition="$(Configuration) == 'Debug' and $(CI) != 'true'">
+        <Reference Include="Assembly-CSharp" HintPath="$(SOD_MONO)\Assembly-CSharp.dll" Private="False" Publicize="true"/>
+    </ItemGroup>
+    
+    <!-- RELEASE Assemblies - IL2CPP build of the game used for mod distribution -->
+    <ItemGroup Condition="$(Configuration) == 'Release' and $(CI) != 'true'">
+        <Reference Include="Assembly-CSharp" HintPath="$(SOD_REFERENCES)\Assembly-CSharp.dll" Private="False" Publicize="true"/>
+    </ItemGroup>
+
+    <!-- CI Assemblies - TODO: set up NuGet package for CI builds -->
+    <!--    <ItemGroup Condition="$(CI) == 'true'">-->
+    <!--                <PackageReference Include="TODO" Version="TODO" Publicize="true" Private="False" PrivateAssets="all"/>-->
+    <!--    </ItemGroup>-->
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <!-- MinVer Set Mod Version from Git -->
+    <Target Name="SetPluginVersion" BeforeTargets="AddGeneratedFile" DependsOnTargets="MinVer">
+        <PropertyGroup>
+            <PlainVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</PlainVersion>
+            <BepInExPluginVersion>$(PlainVersion)</BepInExPluginVersion>
+        </PropertyGroup>
+    </Target>
+
+    <!-- Pack for Thunderstore -->
+    <Target
+            Name="ThunderstorePack"
+            AfterTargets="PostBuildEvent"
+            Condition="$(TargetFramework) == 'netstandard2.1' and $(Configuration) == 'Release' and $(CI) == 'true'"
+            DependsOnTargets="SetPluginVersion"
+    >
+        <Exec Command="dotnet tcli build --config-path $(ProjectDir)../assets/thunderstore.toml --package-version $(PlainVersion)"/>
+        <ItemGroup>
+            <FilesToRename Include="$(ProjectDir)../dist/*-$(PlainVersion).zip"/>
+        </ItemGroup>
+        <Move SourceFiles="@(FilesToRename)" DestinationFiles="@(FilesToRename -&gt; Replace($(PlainVersion), $(MinVerVersion)))"/>
+    </Target>
+
+    <!-- Copy to Development profile -->
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(Configuration) == 'Release'">
+        <Exec Command="copy /Y &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(AppData)\r2modmanPlus-local\ShadowsofDoubt\profiles\Development\BepInEx\plugins&quot;"/>
+    </Target>
+</Project>

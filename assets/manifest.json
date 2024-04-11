@@ -1,0 +1,7 @@
+{
+  "name": "SoDTemplate",
+  "version_number": "0.0.0",
+  "website_url": "https://github.com/MaxWasUnavailable/SoDTemplate",
+  "description": "",
+  "dependencies": ["BepInEx-BepInExPack_IL2CPP-6.0.667"]
+}

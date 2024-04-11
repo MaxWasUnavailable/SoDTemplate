@@ -1,0 +1,34 @@
+[config]
+schemaVersion = "0.0.1"
+
+[package]
+namespace = "MaxWasUnavailable"
+name = "SoDTemplate"
+description = ""
+websiteUrl = "https://github.com/MaxWasUnavailable/SoDTemplate"
+containsNsfwContent = false
+[package.dependencies]
+BepInEx-BepInExPack_IL2CPP = "6.0.667"
+
+[build]
+icon = "logo.png"
+readme = "../README.md"
+outdir = "../dist"
+
+[[build.copy]]
+source = "../LICENSE"
+target = "/"
+
+[[build.copy]]
+source = "../CHANGELOG.md"
+target = "/"
+
+[[build.copy]]
+source = "../SoDTemplate/bin/Release/net6.0/MaxWasUnavailable.SoDTemplate.dll"
+target = "/BepInEx/plugins/SoDTemplate/"
+
+[publish]
+communities = ["shadows-of-doubt", ]
+repository = "https://thunderstore.io"
+[publish.categories]
+shadows-of-doubt = ["mods"]
